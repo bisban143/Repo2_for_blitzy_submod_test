@@ -17,7 +17,7 @@ This application demonstrates:
 ## Running
 
 ```bash
-python hello_world.py
+python3 hello_world.py
 ```
 
 ## Output
