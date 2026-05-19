@@ -55,10 +55,19 @@ def print_runtime_context() -> None:
     preserving the "Multilingual Console Output Parity" contract that this
     file shares with its sibling Java submodules.
     """
-    # socket.gethostname() does not raise on standard platforms — it falls
-    # back to a synthesized identifier (e.g., "localhost") when DNS lookup
-    # is unavailable, so no defensive try/except is required here.
-    hostname = socket.gethostname()
+    # socket.gethostname() normally returns a non-empty identifier even when
+    # DNS resolution is unavailable (e.g., it returns "localhost" or a
+    # synthesised name). However, on rare platforms or in stripped-down
+    # container images the call may raise OSError or return an empty
+    # string — for example, when the kernel's UTS namespace hostname is
+    # unset. Wrap the lookup defensively and fall back to the literal
+    # string "unknown" so the feature always emits a Host: line that is
+    # both non-empty and unambiguous, preserving the cross-submodule
+    # output-parity contract with the Java siblings.
+    try:
+        hostname = socket.gethostname() or "unknown"
+    except OSError:
+        hostname = "unknown"
 
     # os.getcwd() reads the process's current working directory. It only
     # raises FileNotFoundError if the cwd has been unlinked out from under
