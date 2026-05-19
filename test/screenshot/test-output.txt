@@ -1,0 +1,8 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.20, pytest-8.3.4, pluggy-1.6.0
+rootdir: /home/runner/work/Repo2_for_blitzy_submod_test/Repo2_for_blitzy_submod_test
+collected 1 item
+
+test/test_hello_world.py .                                               [100%]
+
+============================== 1 passed in 0.09s ===============================
